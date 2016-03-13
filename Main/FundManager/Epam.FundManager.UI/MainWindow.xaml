@@ -1,0 +1,241 @@
+﻿<Window x:Class="Epam.FundManager.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WPFExtension="clr-namespace:Epam.FundManager.WPFLibrary.Extensions;assembly=Epam.FundManager.WPFLibrary"
+        xmlns:UI="clr-namespace:Epam.FundManager.UI.Presenters" xmlns:views="clr-namespace:Epam.FundManager.UI.Views"
+        Title="Fund Manager UI."
+        MinHeight="400" MinWidth="800"
+        Style="{StaticResource EpamWindow}"
+        Closing="Window_Closing">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="UI:DataCommands.AddStock" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="UI:DataCommands.Cancel" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="UI:DataCommands.BuyStock" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
+    </Window.CommandBindings>
+
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="Transparent">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+            
+            <Button
+                MinWidth="32" MinHeight="32"
+                Command="UI:DataCommands.AddStock"
+                ToolTip="Add button to buy new stock"
+                ToolTipService.ShowOnDisabled="True">
+                <TextBlock Text="Add" />
+            </Button>
+
+            <Button
+                MinWidth="32" MinHeight="32"
+                Command="UI:DataCommands.Cancel"
+                ToolTip="Cancel current operation"
+                ToolTipService.ShowOnDisabled="True">
+                <TextBlock Text="Cancel" />
+            </Button>
+
+        </StackPanel>
+
+        <Grid
+            Grid.Column="0" Grid.Row="1"
+            Visibility="{Binding Path=AddMode, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0">Stock type:</TextBlock>
+            <ComboBox
+                Grid.Column="1"
+                Grid.Row="0"
+                ItemsSource="{Binding Path=Providers}"
+                SelectedItem="{Binding Path=SelectedProvider}"
+                VerticalContentAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Background="Transparent">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="1"
+                            BorderThickness="1"
+                            BorderBrush="SteelBlue"
+                            CornerRadius="1"
+                            Background="White"
+                            Opacity="0.80">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Foreground="Black" FontWeight="Bold" Text="{Binding Path=Title}"  />
+                        </Border>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="1">Price:</TextBlock>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=StockInput.Price, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Column="0" Grid.Row="2">Quantity:</TextBlock>
+
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=StockInput.Quantity, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Button
+                Grid.Column="0" Grid.Row="3" Grid.RowSpan="2"
+                MinWidth="32" MinHeight="32"
+                Command="UI:DataCommands.BuyStock"
+                ToolTip="Buy specified stock"
+                ToolTipService.ShowOnDisabled="True">
+                <TextBlock Text="Buy" />
+            </Button>
+
+        </Grid>
+
+        <ListBox
+            Grid.Column="0"
+            Grid.Row="2"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            ScrollViewer.CanContentScroll="True"
+            ItemsSource="{Binding Path=Stocks}"
+            SelectedItem="{Binding Path=CurrentFunction, Mode=TwoWay}"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="Transparent">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="3"
+                        BorderThickness="1"
+                        BorderBrush="SteelBlue"
+                        CornerRadius="3"
+                        Background="White"
+                        Opacity="0.80">
+                        <Grid>
+                            <Grid.ToolTip>
+                                <StackPanel>
+                                    <TextBlock Foreground="DarkBlue" FontWeight="Bold" Text="{Binding Path=Name}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Foreground="DarkBlue" Text="Purchased at:" />
+                                        <TextBlock Foreground="DarkBlue" Text="{Binding Path=CreatedAt}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid.ToolTip>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Type" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="0" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="100" FontWeight="Bold" Text="{Binding Path=Provider.Title}"  />
+
+                            <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Name" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" MinWidth="100" FontWeight="Bold" Text="{Binding Path=Name}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property= "Foreground" Value="Black"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRed}" Value="True">
+                                                <Setter Property="Foreground" Value="DarkRed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="2" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Price" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="2" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="130" FontWeight="Bold" Text="{Binding Path=Price, StringFormat={}{0:n2}}"  />
+
+                            <TextBlock Grid.Column="3" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Quantity" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="3" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="130" FontWeight="Bold" Text="{Binding Path=Quantity, StringFormat={}{0:n0}}"  />
+
+                            <TextBlock Grid.Column="4" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Market value" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="4" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="130" FontWeight="Bold" Text="{Binding Path=MarketValue, StringFormat={}{0:n2}}"  />
+
+                            <TextBlock Grid.Column="5" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Transaction cost" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="5" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="130" FontWeight="Bold" Text="{Binding Path=TransactionCost, StringFormat={}{0:n2}}"  />
+
+                            <TextBlock Grid.Column="6" Grid.Row="0" Foreground="{StaticResource GreyBrush}" Margin="10,0,0,0" Text="Stock weight, %" Style="{StaticResource SmallFont}" />
+                            <TextBlock Grid.Column="6" Grid.Row="1" Foreground="Black" Margin="10,0,0,0" MinWidth="130" FontWeight="Bold" Text="{Binding Path=StockWeight, StringFormat={}{0:n2}}"  />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox
+            Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" 
+            ItemsSource="{Binding Path=Statistics}"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            MinHeight="300"
+            Background="Transparent"
+            IsEnabled="False"
+            BorderThickness="0"
+            Margin="10">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="3" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Path=Name}" Style="{StaticResource HeadingFont}"></TextBlock>
+
+                            <TextBlock Grid.Column="0" Grid.Row="1">Total number:</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" MinWidth="20" Text="{Binding Path=TotalNumber, StringFormat={}{0:n0}}"></TextBlock>
+
+                            <TextBlock Grid.Column="0" Grid.Row="2">Total stock weight:</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="2" Margin="10,0,0,0" MinWidth="20" Text="{Binding Path=TotalStockWeight, StringFormat={}{0:n2}}"></TextBlock>
+
+                            <TextBlock Grid.Column="0" Grid.Row="3">Total market:</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="3" Margin="10,0,0,0" MinWidth="20" Text="{Binding Path=TotalMarketValue, StringFormat={}{0:n2}}"></TextBlock>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</Window>

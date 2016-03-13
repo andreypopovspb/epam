@@ -1,0 +1,21 @@
+﻿<Application x:Class="Epam.FundManager.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml"
+             xmlns:WPFExtension="clr-namespace:Epam.FundManager.WPFLibrary.Extensions;assembly=Epam.FundManager.WPFLibrary"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException">
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <WPFExtension:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

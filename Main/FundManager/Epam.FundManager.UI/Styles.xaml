@@ -1,0 +1,223 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Fonts -->
+
+    <Style x:Key="MainMenuFont">
+        <Setter Property="Control.FontFamily" Value="Verdana" />
+        <Setter Property="Control.FontSize" Value="11" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="HeadingFont">
+        <Setter Property="Control.FontFamily" Value="Verdana" />
+        <Setter Property="Control.FontSize" Value="11" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="TabMenuFont">
+        <Setter Property="Control.FontFamily" Value="Verdana" />
+        <Setter Property="Control.FontSize" Value="11.75" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="NormalFont">
+        <Setter Property="Control.FontFamily" Value="Verdana" />
+        <Setter Property="Control.FontSize" Value="12.75" />
+        <Setter Property="Control.FontWeight" Value="Normal" />
+    </Style>
+    <Style x:Key="SmallFont">
+        <Setter Property="Control.FontFamily" Value="Verdana" />
+        <Setter Property="Control.FontSize" Value="11" />
+        <Setter Property="Control.FontWeight" Value="Normal" />
+    </Style>
+
+    <!-- Colors and Brushes -->
+
+    <Color x:Key="Orange"               A="255" R="255" G="119" B="0" />
+    <Color x:Key="LightOrange"          A="255" R="255" G="194" B="140" />
+    <Color x:Key="White"                A="255" R="255" G="255" B="255" />
+    <Color x:Key="DarkGrey"             A="255" R="85" G="89" B="94" />
+    <Color x:Key="Grey"                 A="255" R="188" G="188" B="188" />
+    <Color x:Key="LightGrey"            A="255" R="229" G="229" B="229" />
+    <Color x:Key="WarmGrey"             A="255" R="118" G="110" B="103" />
+    <Color x:Key="MainMenu"             A="255" R="118" G="110" B="103" />
+    <Color x:Key="SelectedMainMenu"     A="255" R="255" G="255" B="255" />
+
+    <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource Orange}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="DarkGreyBrush" Color="{StaticResource DarkGrey}" />
+    <SolidColorBrush x:Key="GreyBrush" Color="{StaticResource Grey}" />
+    <SolidColorBrush x:Key="LightGreyBrush" Color="{StaticResource LightGrey}" />
+    <SolidColorBrush x:Key="WarmGreyBrush" Color="{StaticResource WarmGrey}" />
+    <SolidColorBrush x:Key="MainMenuBrush" Color="{StaticResource MainMenu}" />
+    <SolidColorBrush x:Key="SelectedMainMenuBrush" Color="{StaticResource SelectedMainMenu}" />
+
+    <!-- Epam Text -->
+
+    <Style x:Key="GrayHeading" BasedOn="{StaticResource HeadingFont}">
+        <Setter Property="Control.Foreground" Value="{StaticResource WarmGreyBrush}" />
+    </Style>
+
+    <!-- Controls -->
+
+    <!-- EpamWindowLogo -->
+    <Style x:Key="EpamWindowLogo" TargetType="{x:Type Image}" >
+        <Setter Property="Stretch" Value="None" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Window -->
+
+    <Style x:Key="EpamWindow" TargetType="{x:Type Window}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Border Background="White"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Margin="{TemplateBinding Margin}"
+                        Padding="20,20,20,10">
+                        <AdornerDecorator>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Style="{StaticResource EpamWindowLogo}" Grid.Column="0" Grid.Row="0" Source="Images/Epam48.png" />
+                                <ContentPresenter Grid.Column="0" Grid.Row="1" />
+                            </Grid>
+                        </AdornerDecorator>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Type Window}" TargetType="{x:Type Window}" BasedOn="{StaticResource EpamWindow}" />
+
+    <!-- TextBox -->
+    <Style x:Key="EpamTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource SmallFont}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource EpamTextBox}" />
+
+    <!-- Label -->
+    <Style x:Key="EpamLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource SmallFont}">
+    </Style>
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource EpamLabel}"/>
+
+    <!-- Button -->
+    <Style x:Key="EpamButton" TargetType="{x:Type Button}">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.30" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}" BasedOn="{StaticResource EpamButton}" />
+
+    <!-- Toolbar -->
+
+    <!-- Toolbar Container-->
+    <Style x:Key="EpamToolBar" TargetType="{x:Type ToolBar}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolBar}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Style="{StaticResource GrayHeading}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}}, Path=SelectedValue.Header}" />
+                            <Border
+                                Grid.Row="1"
+                                Background="{StaticResource WhiteBrush}"
+                                BorderBrush="{StaticResource OrangeBrush}"
+                                BorderThickness="0,0,0,1" CornerRadius="1"></Border>
+                        </Grid>
+                        <Border
+                            Grid.Row="1"
+                            x:Name="Border"
+                            CornerRadius="1"
+                            BorderThickness="0,0,0,1"
+                            Background="{StaticResource WhiteBrush}" 
+                            BorderBrush="{StaticResource GreyBrush}">
+                            <DockPanel>
+                                <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="true" Margin="0,0,1,0" />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Type ToolBar}" TargetType="{x:Type ToolBar}" BasedOn="{StaticResource EpamToolBar}"/>
+
+    <!-- Toolbar Button -->
+    <Style x:Key="EpamToolbarButton" TargetType="Button" BasedOn="{StaticResource EpamButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Button.Width" Value="22" />
+        <Setter Property="Button.Height" Value="21" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        Name="ImageBorder"
+                        BorderThickness="1" CornerRadius="2"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Name="ImageContainer" Background="{TemplateBinding Background}">
+                            <ContentPresenter
+                                ContentTemplate="{TemplateBinding Content}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ImageBorder" Property="BorderBrush" Value="DodgerBlue" />
+                            <Setter TargetName="ImageBorder" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush>
+                                        <SolidColorBrush.Color>
+                                            <Color A="200" R="194" G="224" B="255" />
+                                        </SolidColorBrush.Color>
+                                    </SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ImageBorder" Property="BorderBrush" Value="DodgerBlue" />
+                            <Setter TargetName="ImageBorder" Property="Background" Value="LightSkyBlue" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button" BasedOn="{StaticResource EpamToolbarButton}" />
+
+</ResourceDictionary>
